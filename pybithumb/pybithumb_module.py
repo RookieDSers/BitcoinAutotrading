@@ -35,3 +35,11 @@ for bid in bids:
 ms = int(orderbook['timestamp'])
 dt = datetime.datetime.fromtimestamp(ms/1000)
 print(dt)
+
+
+# Get all info
+all = pybithumb.get_current_price("ALL")
+# for k, v in all.items():
+#     print(k, v)
+for ticker, data in all.items():
+    print(ticker, data['closing_price'])
