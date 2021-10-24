@@ -26,6 +26,6 @@ Reference: [PyQt5](https://pypi.org/project/PyQt5/)
           print("Button Clicked!")
   ```
 
-  ![mywindow_clicked](/pyQt/mywindow_clicked){loop=""}
+  ![mywindow_clicked](/pyQt/mywindow_clicked.gif)
 
 - Use **Signal/Slot** to receive data from outer class
