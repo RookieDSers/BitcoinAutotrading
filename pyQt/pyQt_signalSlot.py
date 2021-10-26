@@ -1,4 +1,5 @@
 import sys
+import time
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
@@ -8,7 +9,10 @@ class MySignal(QObject):
     signal2 = pyqtSignal(int, int)
 
     def run(self):
-        self.signal1.emit()     # send data with emit() function
+        # send data with emit() function
+        print("emit signal1")
+        self.signal1.emit()
+        print("emit signal2...")
         self.signal2.emit(1, 2)
 
 
@@ -23,10 +27,12 @@ class MyWindow(QMainWindow):
 
     @pyqtSlot()
     def signal1_emitted(self):
+        time.sleep(2)
         print("signal1 emitted")
 
     @pyqtSlot(int, int)
     def signal2_emitted(self, arg1, arg2):
+        time.sleep(5)
         print("signal2 emitted", arg1, arg2)
 
 
