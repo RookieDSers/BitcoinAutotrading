@@ -62,3 +62,5 @@ Reference: [PyQt5](https://pypi.org/project/PyQt5/)
           time.sleep(5)
           print("signal2 emitted", arg1, arg2)
   ```
+
+  ![mywindow_clicked](/pyQt/pyqt_slotSignal.gif)
