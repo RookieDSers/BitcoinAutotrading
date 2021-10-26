@@ -28,4 +28,33 @@ Reference: [PyQt5](https://pypi.org/project/PyQt5/)
 
   ![mywindow_clicked](/pyQt/mywindow_clicked.gif)
 
-- Use **Signal/Slot** to receive data from outer class
+- Use **Signal/Slot** to send/receive data from outer class
+
+  ```python
+  class MySignal(QObject):
+      signal1 = pyqtSignal()
+      signal2 = pyqtSignal(int, int)
+
+      def run(self):
+          # emit data to each Signal
+          self.signal1.emit()
+          self.signal2.emit(1, 2)
+
+  class MyWindow(QMainWindow):
+      def __init__(self):
+          super().__init__()
+
+          mysignal = MySignal()
+          # receive data from signal and connect to each Slot
+          mysignal.signal1.connect(self.signal1_emitted)
+          mysignal.signal2.connect(self.signal2_emitted)
+          mysignal.run()
+
+      @pyqtSlot()
+      def signal1_emitted(self):
+          print("signal1 emitted")
+
+      @pyqtSlot(int, int)
+      def signal2_emitted(self, arg1, arg2):
+          print("signal2 emitted", arg1, arg2)
+  ```
