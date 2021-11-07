@@ -4,15 +4,17 @@ from PyQt5.QtCore import *
 from PyQt5 import uic
 import pybithumb
 
-form_class = uic.loadUiType(
-    "window.ui")[0]
+form_class = uic.loadUiType("/Volumes/SteveJobs/Projects/BitcoinAutotrading/PyQt+pybithumb/window.ui")[0]
 
 
 class MyWindow(QMainWindow, form_class):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.pushButton.clicked.connect(self.inquiry)
+
+        # price inquiry whenever clicked
+        # self.pushButton.clicked.connect(self.inquiry)
+
         self.timer = QTimer(self)       # create QTimer instance
         self.timer.start(1000)          # set inverval as 1 sec
         self.timer.timeout.connect(self.inquiry)    # even loop in every second
