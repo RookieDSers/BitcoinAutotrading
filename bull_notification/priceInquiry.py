@@ -16,7 +16,7 @@ class MyWindow(QMainWindow, form_class):
         # self.pushButton.clicked.connect(self.inquiry)
 
         self.timer = QTimer(self)       # create QTimer instance
-        self.timer.start(1000)          # set inverval as 1 sec
+        self.timer.start(1000)          # set inverval as 1000ms = 1 sec
         self.timer.timeout.connect(self.inquiry)    # even loop in every second
 
     def inquiry(self):
