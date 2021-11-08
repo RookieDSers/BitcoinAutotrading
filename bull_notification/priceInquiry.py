@@ -4,7 +4,7 @@ from PyQt5.QtCore import *
 from PyQt5 import uic
 import pybithumb
 
-form_class = uic.loadUiType("/Volumes/SteveJobs/Projects/BitcoinAutotrading/PyQt+pybithumb/window.ui")[0]
+form_class = uic.loadUiType("/Volumes/SteveJobs/Projects/BitcoinAutotrading/bull_notification/window.ui")[0]
 
 
 class MyWindow(QMainWindow, form_class):
