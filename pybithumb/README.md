@@ -13,16 +13,14 @@
 ### Introduction to pybithumb functions (public API)
 | Function | Description |
 | --- | --- |
-| pybithumb.get_tickers() | 0 |
-| pybithumb.get_current_price(_ticker_) | 0 |
-| pybithumb.get_market_detail(_ticker_) | 0 |
-| pybithumb.get_orderbook(_ticker_) | 0 |
-| pybithumb.Bithumb() | 0|
+| pybithumb.get_tickers() | return all tickers that are being traded in bithumb|
+| pybithumb.get_current_price(_ticker_) | return the current price of input ticker |
+| pybithumb.get_market_detail(_ticker_) | return tuple with lowest price, highest price, average price, and trading volume of input ticker|
+| pybithumb.get_orderbook(_ticker_) | return dictionary with 5 keys (timestamp, payment_currency, order_currency, bids, asks)|
 ---
 ### Introduction to bithumb functions (private API)
 | Function | Description |
 | --- | --- |
-| bithumb.get_balance(_ticker_) | 0 |
-|  | 0 |
-|  | 0 |
-|  | 0 |
+| pybithumb.Bithumb(apiKey, secretKey) | get user information (api and secret keys) |
+| bithumb.get_balance(_ticker_) | return the current balance in user's account |
+
