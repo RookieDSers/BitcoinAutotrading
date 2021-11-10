@@ -17,6 +17,7 @@
 | pybithumb.get_current_price(_ticker_) | return the current price of input ticker |
 | pybithumb.get_market_detail(_ticker_) | return tuple with lowest price, highest price, average price, and trading volume of input ticker|
 | pybithumb.get_orderbook(_ticker_) | return dictionary with 5 keys (timestamp, payment_currency, order_currency, bids, asks)|
+| pybithumb.get_ohlcv(_ticker_) | return dataframe with the ticker's information (open, high, close, volume, etc) |
 ---
 ### Introduction to bithumb functions (private API)
 | Function | Description |
