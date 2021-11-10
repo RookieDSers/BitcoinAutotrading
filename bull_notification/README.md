@@ -1,7 +1,5 @@
 ## Bull Notification
 
----
-
 ### Real Time Price Inquiry
 
 - Use QTimer, QTime for real time GUI
@@ -22,3 +20,7 @@
   ```
 
   ![Price Inquiry](/bull_notification/price_inquiry.gif)
+
+  ### Bull/Bid Notification
+  
+  - 
