@@ -21,6 +21,16 @@
 
   ![Price Inquiry](/bull_notification/price_inquiry.gif)
 
-  ### Bull/Bid Notification
-  
-  - 
+  ### Moving Average Formula
+
+  ### Moving Average in Python codes
+
+  ### Moving Average in PyQt
+
+  ### Volatility Breakout Strategy
+
+  ### Volatility Breakout in Python codes
+
+  ### Final Version for Bull Notification
+
+  ### Bull/Bid Notifiaction PyQt
