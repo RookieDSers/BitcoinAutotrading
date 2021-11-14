@@ -34,7 +34,6 @@ def bull_market(ticker):
     else:
         return False
 
-
 tickers = pybithumb.get_tickers()
 for ticker in tickers:
     is_bull = bull_market(ticker)
