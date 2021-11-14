@@ -21,16 +21,29 @@
 
   ![Price Inquiry](/bull_notification/price_inquiry.gif)
 
-  ### Moving Average Formula
+---
 
-  ### Moving Average in Python codes
+### Moving Average Method
 
-  ### Moving Average in PyQt
+- Classify bull/bid market with **Simple Moving Average(SMA)**
+- _N_ Day-Moving Average:
+  $$ ma5 = P*{i-5} + P*{i-4} + ... + P*{i-1}$$
+  ($P*{i-k}$ is closing price of k days before current day)
+- We applied 5 Day-Moving Average
+- Reference:
+  - https://corporatefinanceinstitute.com/resources/knowledge/other/moving-average/
+  - https://wikidocs.net/21882
 
-  ### Volatility Breakout Strategy
+---
 
-  ### Volatility Breakout in Python codes
+### Moving Average in Python codes
 
-  ### Final Version for Bull Notification
+### Moving Average in PyQt
 
-  ### Bull/Bid Notifiaction PyQt
+### Volatility Breakout Strategy
+
+### Volatility Breakout in Python codes
+
+### Final Version for Bull Notification
+
+### Bull/Bid Notifiaction PyQt
