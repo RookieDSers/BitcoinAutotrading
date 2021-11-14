@@ -37,58 +37,121 @@
 ---
 
 ### Moving Average in Python codes
-  1. Get closing price data of ticker for each date
-  ```python
-    import pybithumb
-    btc = pybithumb.get_ohlcv("BTC")
-    print(btc)
-    close = btc['close']
-    print('close:')
-    print(close)
-   ```
-  2. Get five days moving average
-  ```python
-    window = close.rolling(5)
-    ma5 = window.mean()
-    print(ma5)
-  ```
-  3. Define bull market and bear market based on the moving average of last five days. If the current price is higher than the moving average of last five days, then it's bull market, otherwise it's bear market
-  ```python
-    last_ma5 = ma5[-2]
-    price = pybithumb.get_current_price("BTC")
-    if price > last_ma5:
-        print("Bull!!!")
-    else:
-        print("Bear...")
-  ```
-  4. Define function with the above codes
-  ```python
-    def bull_market(ticker):
-        df = pybithumb.get_ohlcv(ticker)
-        ma5 = df.rolling(5).mean()
-        price = pybithumb.get_current_price(ticker)
-        last_ma5 = ma5[-2]
-        if price > last_ma5:
-            return True
-        else:
-            return False
-  ```
-  5. Decide all tickers' market depends on the moving average strategy defined above 
-  ```python
-    tickers = pybithumb.get_tickers()
-    for ticker in tickers:
-        is_bull = bull_market(ticker)
-        if is_bull:
-            print(ticker, " is Bull!!!")
-        else:
-            print(ticker, " is Bear...")
-  ```
 
+1. Get closing price data of ticker for each date
 
+```python
+  import pybithumb
+  btc = pybithumb.get_ohlcv("BTC")
+  print(btc)
+  close = btc['close']
+  print('close:')
+  print(close)
+```
+
+2. Get five days moving average
+
+```python
+  window = close.rolling(5)
+  ma5 = window.mean()
+  print(ma5)
+```
+
+3. Define bull market and bear market based on the moving average of last five days. If the current price is higher than the moving average of last five days, then it's bull market, otherwise it's bear market
+
+```python
+  last_ma5 = ma5[-2]
+  price = pybithumb.get_current_price("BTC")
+  if price > last_ma5:
+      print("Bull!!!")
+  else:
+      print("Bear...")
+```
+
+4. Define function with the above codes
+
+```python
+  def bull_market(ticker):
+      df = pybithumb.get_ohlcv(ticker)
+      ma5 = df.rolling(5).mean()
+      price = pybithumb.get_current_price(ticker)
+      last_ma5 = ma5[-2]
+      if price > last_ma5:
+          return True
+      else:
+          return False
+```
+
+5. Decide all tickers' market depends on the moving average strategy defined above
+
+```python
+  tickers = pybithumb.get_tickers()
+  for ticker in tickers:
+      is_bull = bull_market(ticker)
+      if is_bull:
+          print(ticker, " is Bull!!!")
+      else:
+          print(ticker, " is Bear...")
+```
 
 ---
 
 ### Moving Average in PyQt
+
+- Set initial _tickers_
+  ```python
+  tickers = ["BTC", "ETH", "BCH", "ETC"]
+  ```
+- Set up QTable elements in the constructor
+
+  ```python
+  class MyWindow(QMainWindow, form_class):
+    def __init__(self):
+        ...
+        # set rowNum to tickers
+        self.tableWidget.setRowCount(len(tickers))
+
+        # set up each ticker's data to each cell
+        for i, ticker in enumerate(tickers):
+            item = QTableWidgetItem(ticker)
+            self.tableWidget.setItem(i, 0, item)
+
+        # set up timer for real time update (every 5sec)
+        timer = QTimer(self)
+        timer.start(5000)
+        timer.timeout.connect(self.timeout)
+  ```
+
+- Get each ticker's data and classification of whether a ticker is bull or bear (apply python code)
+
+  ```python
+  def get_market_infos(self, ticker):
+        df = pybithumb.get_ohlcv(ticker)
+        ma5 = df['close'].rolling(5).mean()
+        last_ma5 = ma5[-2]
+        price = pybithumb.get_current_price(ticker)
+
+        state = None
+        if price > last_ma5:
+            state = "Bull!!!"
+        else:
+            state = "Bear..."
+
+        return price, last_ma5, state
+  ```
+
+- Update each ticker's info on Qtable
+
+  ```python
+  def timeout(self):
+        for i, ticker in enumerate(tickers):
+            price, last_ma5, state = self.get_market_infos(ticker)
+            self.tableWidget.setItem(i, 1, QTableWidgetItem(str(price)))
+            self.tableWidget.setItem(i, 2, QTableWidgetItem(str(last_ma5)))
+            self.tableWidget.setItem(i, 3, QTableWidgetItem(state))
+  ```
+
+  ![MovingAveragePyQt](/bull_notification/ma5.gif)
 
 ### Volatility Breakout Strategy
 

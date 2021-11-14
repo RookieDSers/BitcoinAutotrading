@@ -6,7 +6,7 @@ from PyQt5.QtCore import *
 import pybithumb
 
 form_class = uic.loadUiType(
-    "/Volumes/SteveJobs/localGit/bitcoin_tutorial/5_BullNotification/bull.ui")[0]
+    "/Volumes/SteveJobs/Projects/BitcoinAutotrading/bull_notification/bull.ui")[0]
 tickers = ["BTC", "ETH", "BCH", "ETC"]
 
 
