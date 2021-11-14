@@ -10,7 +10,6 @@ print(close)
 # Calculate "Moving Average"
 window = close.rolling(5)   # group the data with size 5
 ma5 = window.mean()
-# ma5 = close.rolling(5).mean()
 print(ma5)
 
 # Bull notification
