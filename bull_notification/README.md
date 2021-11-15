@@ -228,5 +228,34 @@ for ticker in tickers:
 ```
 ---
 ### Final Version for Bull Notification
+1. Define the functions calculating both 5-day SMA and base price
+```python
+def get_yesterday_ma5(ticker):
+    df = pybithumb.get_ohlcv(ticker)
+    close = df['close']
+    ma = close.rolling(5).mean()
+    return ma[-2]
 
+def get_base_price(ticker):
+    df = pybithumb.get_ohlcv(ticker)
+    yesterday = df.iloc[-2]
+    today_open = yesterday['close']
+    yesterday_high = yesterday['high']
+    yesterday_low = yesterday['low']
+    base = today_open + (yesterday_high - yesterday_low) * 0.5
+    return base
+
+```
+2. Define the final function of bull notification with the strategies above
+```python
+def is_bull_market(ticker):
+    ma5 = get_yesterday_ma5(ticker)
+    base = get_base_price(ticker)
+    price = pybithumb.get_current_price(ticker)
+    if price > ma5 and price > base:
+        return True
+    else:
+        return False
+```
+---
 ### Bull/Bid Notifiaction PyQt
