@@ -182,6 +182,51 @@
 ---
 ### Volatility Breakout in Python codes
 
+1. Calculate base price with the k value of .5
+```python
+df = pybithumb.get_ohlcv("BTC")
+yesterday = df.iloc[-2]
+today_open = yesterday['close']
+yesterday_high = yesterday['high']
+yesterday_low = yesterday['low']
+base = today_open + (yesterday_high - yesterday_low) * 0.5
+print(base)
+```
+2. Define bull notification based on the base price
+```python
+price = pybithumb.get_current_price("BTC")
+
+if price > base:
+    print("Bull!!!")
+else:
+    print("Bear...")
+```
+3. Define the above codes as function
+```python
+def vol_bull_market(ticker):
+    df = pybithumb.get_ohlcv(ticker)
+    yesterday = df.iloc[-2]
+    today_open = yesterday['close']
+    yesterday_high = yesterday['high']
+    yesterday_low = yesterday['low']
+    base = today_open + (yesterday_high - yesterday_low) * 0.5
+    price = pybithumb.get_current_price(ticker)
+    if price > base:
+        return True
+    else:
+        return False
+```
+4. Define all tickers' bull notification with the above function
+```python
+tickers = pybithumb.get_tickers()
+for ticker in tickers:
+    is_bull = vol_bull_market(ticker)
+    if is_bull:
+        print(ticker, " is Bull!!!")
+    else:
+        print(ticker, " is Bear...")
+```
+---
 ### Final Version for Bull Notification
 
 ### Bull/Bid Notifiaction PyQt
