@@ -278,7 +278,7 @@ def is_bull_market(ticker):
 
 ### Bull/Bid Notifiaction PyQt
 
-- update instance function with two metods above:
+- update instance function with two methods above:
 
   ```python
   def get_market_infos(self, ticker):
