@@ -153,6 +153,7 @@
 
   ![MovingAveragePyQt](/bull_notification/ma5.gif)
 
+---
 ### Volatility Breakout Strategy
 
 - We applied **Volatility Breakout Strategy** (_by Larry Williams_) to make our bull/bid classification more appropirate.
@@ -178,7 +179,7 @@
 - Reference:
   - https://www.tradingview.com/chart/TSLA/vlvAMwqN-Volatility-Breakout-Trading-Explained/
   - https://wikidocs.net/21888
-
+---
 ### Volatility Breakout in Python codes
 
 ### Final Version for Bull Notification
