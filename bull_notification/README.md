@@ -154,6 +154,7 @@
   ![MovingAveragePyQt](/bull_notification/ma5.gif)
 
 ---
+
 ### Volatility Breakout Strategy
 
 - We applied **Volatility Breakout Strategy** (_by Larry Williams_) to make our bull/bid classification more appropirate.
@@ -179,10 +180,13 @@
 - Reference:
   - https://www.tradingview.com/chart/TSLA/vlvAMwqN-Volatility-Breakout-Trading-Explained/
   - https://wikidocs.net/21888
+
 ---
+
 ### Volatility Breakout in Python codes
 
 1. Calculate base price with the k value of .5
+
 ```python
 df = pybithumb.get_ohlcv("BTC")
 yesterday = df.iloc[-2]
@@ -192,7 +196,9 @@ yesterday_low = yesterday['low']
 base = today_open + (yesterday_high - yesterday_low) * 0.5
 print(base)
 ```
+
 2. Define bull notification based on the base price
+
 ```python
 price = pybithumb.get_current_price("BTC")
 
@@ -201,7 +207,9 @@ if price > base:
 else:
     print("Bear...")
 ```
+
 3. Define the above codes as function
+
 ```python
 def vol_bull_market(ticker):
     df = pybithumb.get_ohlcv(ticker)
@@ -216,7 +224,9 @@ def vol_bull_market(ticker):
     else:
         return False
 ```
+
 4. Define all tickers' bull notification with the above function
+
 ```python
 tickers = pybithumb.get_tickers()
 for ticker in tickers:
@@ -226,9 +236,13 @@ for ticker in tickers:
     else:
         print(ticker, " is Bear...")
 ```
+
 ---
+
 ### Final Version for Bull Notification
+
 1. Define the functions calculating both 5-day SMA and base price
+
 ```python
 def get_yesterday_ma5(ticker):
     df = pybithumb.get_ohlcv(ticker)
@@ -246,7 +260,9 @@ def get_base_price(ticker):
     return base
 
 ```
+
 2. Define the final function of bull notification with the strategies above
+
 ```python
 def is_bull_market(ticker):
     ma5 = get_yesterday_ma5(ticker)
@@ -257,5 +273,40 @@ def is_bull_market(ticker):
     else:
         return False
 ```
+
 ---
+
 ### Bull/Bid Notifiaction PyQt
+
+- update instance function with two metods above:
+
+  ```python
+  def get_market_infos(self, ticker):
+        df = pybithumb.get_ohlcv(ticker)
+
+        # Get ma5
+        close = df['close']
+        ma5 = close.rolling(5).mean()
+        last_ma5 = ma5[-2]
+
+        # Get base price
+        yesterday = df.iloc[-2]
+        today_open = yesterday['close']
+        yesterday_high = yesterday['high']
+        yesterday_low = yesterday['low']
+        base = today_open + (yesterday_high - yesterday_low) * 0.5
+
+        # Get current price of a ticker
+        price = pybithumb.get_current_price(ticker)
+        state = None
+
+        # Classify based on two target prices above
+        if price > last_ma5 and price > base:
+            state = "Bull!!!"
+        else:
+            state = "Bear..."
+
+        return price, last_ma5, base, state
+  ```
+
+  ![Notification](/bull_notification/notification.gif)
