@@ -155,6 +155,30 @@
 
 ### Volatility Breakout Strategy
 
+- We applied **Volatility Breakout Strategy** (_by Larry Williams_) to make our bull/bid classification more appropirate.
+
+  1. Calculate the Range:
+
+  ```
+  Range = Daily High - Daily Low
+  ```
+
+  2. Set Base Price with constant _K_(_noise ratio_):
+
+  ```
+  Base Price = Previous Day's Candle Close + (Range * K)
+  ```
+
+  3. When today's price exceeds base price, enter a position
+
+  4. Next day, sell all the positions at the daily open price
+
+- We've set our initial noise ratio(_K_) as 0.5
+
+- Reference:
+  - https://www.tradingview.com/chart/TSLA/vlvAMwqN-Volatility-Breakout-Trading-Explained/
+  - https://wikidocs.net/21888
+
 ### Volatility Breakout in Python codes
 
 ### Final Version for Bull Notification
