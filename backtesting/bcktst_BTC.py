@@ -4,7 +4,7 @@ import pybithumb
 df = pybithumb.get_ohlcv("BTC")
 df = df['2021']
 df['ma5'] = df['close'].rolling(5).mean().shift(1)
-df['range'] = (df['high']-df['low'])*0.7
+df['range'] = (df['high']-df['low'])*0.5
 df['target'] = df['open']+df['range'].shift(1)
 df['bull'] = df['open'] > df['ma5']
 
