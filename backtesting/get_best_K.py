@@ -15,7 +15,6 @@ def get_ror(k=0.5):
     ror = df['ror'].cumprod()[-2]
     return ror
 
-
 for k in np.arange(0.1, 1.0, 0.1):
     ror = get_ror(k)
     print("%.1f %f" % (k, ror))
