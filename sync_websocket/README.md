@@ -71,8 +71,20 @@
             )
             print(result)
         ```
+- Use _multiprocessing_ module to handle multiple events
+    - Use _queue_ to send data to another process
+        ```python
+        import multiprocessing as mp
 
-- Subscribe _Bithumb_ website to receive real-time coin data
+        q = mp.Queue()
+        ```
+    - Spawn a subprocess to handle coroutine and data with the _queue_
+        ```python
+        p = mp.Process(name="Producer", target=producer, args=(q,), daemon=True)
+        p.start()
+        ```
+
+- Coroutine: subscribe _Bithumb_ website to receive real-time coin data
     ```python
     async def bithumb_ws_clinet(q):
         # receive coin data with websocket, and put into a Queue
