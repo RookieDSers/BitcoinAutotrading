@@ -109,3 +109,26 @@
                 data = json.loads(data)
                 q.put(data)
     ```
+
+    ![websocket_module](websocket_module.gif)
+
+### Using _pybithumb_ module to handle websocket
+- Use _pybithumb_ built-in _WebSocketManager_:
+    - receives data from _Bithumb_ server
+    - handle and put the data into _queue_
+    ```python
+    from pybithumb import WebSocketManager
+    ...
+
+    class Worker(QThread):
+        recv = pyqtSignal(str)
+
+        def run(self):
+            # create websocket for Bithumb
+            wm = WebSocketManager("ticker", ["BTC_KRW"])
+            while True:
+                # take the data out from the queue
+                data = wm.get()
+                self.recv.emit(data['content']['closePrice'])
+    ```
+    ![pybithumb_websocket](pybithumb_websocket.gif)
