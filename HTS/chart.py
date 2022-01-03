@@ -31,10 +31,9 @@ class PriceWorker(QThread):
 
 
 class ChartWidget(QWidget):
-    def __init__(self, parent=None, ticker="LUNA"):
+    def __init__(self, parent=None, ticker="BTC"):
         super().__init__(parent)
-        uic.loadUi(
-            "/Volumes/SteveJobs/localGit/bitcoin_tutorial/9_HTS/resource/chart.ui", self)
+        uic.loadUi("resource/chart.ui", self)
 
         self.ticker = ticker
         self.viewLimit = 120    # set viewlimit time to 120 sec
@@ -44,7 +43,7 @@ class ChartWidget(QWidget):
         self.priceChart.legend().hide()
 
         ### set X, Y axis ###
-
+            
         # set X-axis to date time
         axisX = QDateTimeAxis()
         axisX.setFormat("hh:mm:ss")
@@ -52,9 +51,11 @@ class ChartWidget(QWidget):
         dt = QDateTime.currentDateTime()
         axisX.setRange(dt, dt.addSecs(self.viewLimit))
 
+        # set Y-axis
         axisY = QValueAxis()
         axisY.setVisible(False)
 
+        # connect X, Y axis with the recieved data
         self.priceChart.addAxis(axisX, Qt.AlignBottom)
         self.priceChart.addAxis(axisY, Qt.AlignRight)
         self.priceData.attachAxis(axisX)
@@ -64,7 +65,7 @@ class ChartWidget(QWidget):
         self.priceView.setChart(self.priceChart)
         self.priceView.setRenderHints(QPainter.Antialiasing)
 
-        # call
+        # create QThread Object
         self.pw = PriceWorker(ticker)
         self.pw.dataSent.connect(self.appendData)
         self.pw.start()
