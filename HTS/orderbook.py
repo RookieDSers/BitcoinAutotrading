@@ -29,10 +29,10 @@ class OrderbookWorker(QThread):
 
 
 class OrderbookWidget(QWidget):
-    def __init__(self, parent=None, ticker="LUNA"):
+    def __init__(self, parent=None, ticker="BTC"):
         super().__init__(parent)
         uic.loadUi(
-            "/Volumes/SteveJobs/localGit/bitcoin_tutorial/9_HTS/resource/orderbook.ui", self)
+            "resource/orderbook.ui", self)
         self.ticker = ticker
 
         # start Orderbook Thread
@@ -55,6 +55,7 @@ class OrderbookWidget(QWidget):
             # Total - bar in Red
             item_2 = QProgressBar(self.tableAsks)
             item_2.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            # set layout with CSS
             item_2.setStyleSheet("""
                 QProgressBar {background-color: rgba(0, 0, 0, 0%); border: 1}
                 QProgressBar::Chunk {background-color: rgba(255, 0, 0, 50%); border: 1}
