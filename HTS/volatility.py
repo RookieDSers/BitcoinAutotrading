@@ -21,6 +21,7 @@ class VolatilityWorker(QThread):
         target_price = get_target_price(self.ticker)
         wait_flag = False
 
+        # print target_price and ma5 for testing
         print(target_price)
         print(ma5)
 
@@ -28,7 +29,6 @@ class VolatilityWorker(QThread):
             try:
                 now = datetime.datetime.now()
                 if mid < now < mid + datetime.delta(seconds=10):
-                    print("Try to sell...")
                     target_price = get_target_price(self.ticker)
                     mid = datetime.datetime(
                         now.year, now.month, now.day) + datetime.timedelta(1)
@@ -43,12 +43,9 @@ class VolatilityWorker(QThread):
                     self.tradingSent.emit(
                         tstring, "Sell", result['data']['order_qty'])
                     wait_flag = False
-                    print("Sold!!")
 
                 if wait_flag == False:
-                    # print("try to buy...")
                     current_price = pybithumb.get_current_price(self.ticker)
-                    # print(current_price, "<--->", target_price, "with", ma5)
                     if (current_price > target_price) and (current_price > ma5):
                         print("time to buy...!")
                         desc = buy_crypto_currency(self.bithumb, self.ticker)
@@ -60,7 +57,6 @@ class VolatilityWorker(QThread):
                         self.tradingSent.emit(
                             tstring, "Buy", result['data']['order_qty'])
                         wait_flag = True
-                        print(tstring, "bought!!")
             except:
                 pass
             time.sleep(1)
