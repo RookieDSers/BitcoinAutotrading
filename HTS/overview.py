@@ -5,6 +5,7 @@ from pybithumb import WebSocketManager
 
 
 class OverViewWorker(QThread):
+    # set multiple signals for 24H and MID events
     data24Sent = pyqtSignal(int, float, int, float, int, int)
     dataMidSent = pyqtSignal(int, float, float)
 
@@ -20,11 +21,13 @@ class OverViewWorker(QThread):
         while self.alive:
             try:
                 data = self.wm.get()
-
+                # received data is MID-data
                 if data['content']['tickType'] == "MID":
                     self.dataMidSent.emit(int(data['content']['closePrice']),
                                           float(data['content']['chgRate']),
                                           float(data['content']['volumePower']))
+                
+                # received data is 24H-data
                 else:
                     self.data24Sent.emit(int(data['content']['closePrice']),
                                          float(data['content']['volume']),
@@ -41,17 +44,17 @@ class OverViewWorker(QThread):
 
 
 class OverviewWidget(QWidget):
-    def __init__(self, parent=None, ticker="LUNA"):
+    def __init__(self, parent=None, ticker="BTC"):
         super().__init__(parent)
-        uic.loadUi(
-            "/Volumes/SteveJobs/localGit/bitcoin_tutorial/9_HTS/resource/overview.ui", self)
+        uic.loadUi("resource/overview.ui", self)
         self.ticker = ticker
 
         self.ovw = OverViewWorker(ticker)
         self.ovw.data24Sent.connect(self.fill24Data)
         self.ovw.dataMidSent.connect(self.fillMidData)
         self.ovw.start()
-
+        
+    # fill in 24H data
     def fill24Data(self, currPrice, volume, highPrice, value, lowPrice, prevClosePrice):
         self.label_1.setText(f"{currPrice:,}")
         self.label_4.setText(f"{volume:.4f} {self.ticker}")
@@ -61,6 +64,7 @@ class OverviewWidget(QWidget):
         self.label_14.setText(f"{prevClosePrice:,}")
         self.__updateStyle()
 
+    # fill in MID data
     def fillMidData(self, currPrice, chgRate, volumePower):
         self.label_1.setText(f"{currPrice:,}")
         self.label_2.setText(f"{chgRate:+.2f}%")

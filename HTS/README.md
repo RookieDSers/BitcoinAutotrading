@@ -1,6 +1,9 @@
 ## Building HTS
+- Each GUI UIs are created with _PyQt5 QtDesigner_
+
 
 ### Chart GUI
+
 - Create QThread that receive coin data and send to the Chart GUI
     ```python
     class PriceWorker(QThread):
@@ -93,6 +96,7 @@
 
 
 ### Orderbook GUI
+
 - Create data receiver QThread for Orderbook
     ```python
     class OrderbookWorker(QThread):
@@ -208,3 +212,91 @@
             self.ow.close()
     ```
     ![Orderbook_GUI](orderbook.gif)
+
+### Overview GUI
+
+- Create data receiver QThread for Overview
+    ```python
+    class OverViewWorker(QThread):
+        # set multiple signals for 24H and MID events
+        data24Sent = pyqtSignal(int, float, int, float, int, int)
+        dataMidSent = pyqtSignal(int, float, float)
+
+        def __init__(self, ticker):
+            super().__init__()
+            self.ticker = ticker
+            self.alive = True
+
+        def run(self):
+            # subscribe websocket for 24H and MID for accurency
+            self.wm = WebSocketManager(
+                "ticker", [f"{self.ticker}_KRW"], ["24H", "MID"])
+            while self.alive:
+                try:
+                    data = self.wm.get()
+                    # received data is MID-data
+                    if data['content']['tickType'] == "MID":
+                        self.dataMidSent.emit(int(data['content']['closePrice']),
+                                            float(data['content']['chgRate']),
+                                            float(data['content']['volumePower']))
+                    
+                    # received data is 24H-data
+                    else:
+                        self.data24Sent.emit(int(data['content']['closePrice']),
+                                            float(data['content']['volume']),
+                                            int(data['content']['highPrice']),
+                                            float(data['content']['value']),
+                                            int(data['content']['lowPrice']),
+                                            int(data['content']['prevClosePrice']))
+                except:
+                    pass
+
+        def close(self):
+            self.alive = False
+            self.wm.terminate()
+    ```
+- Set up OverviewWidget
+    ```python
+    class OverviewWidget(QWidget):
+        def __init__(self, parent=None, ticker="BTC"):
+            super().__init__(parent)
+            uic.loadUi("resource/overview.ui", self)
+            self.ticker = ticker
+
+            self.ovw = OverViewWorker(ticker)
+            self.ovw.data24Sent.connect(self.fill24Data)
+            self.ovw.dataMidSent.connect(self.fillMidData)
+            self.ovw.start()
+
+        # fill in 24H data
+        def fill24Data(self, currPrice, volume, highPrice, value, lowPrice, prevClosePrice):
+            self.label_1.setText(f"{currPrice:,}")
+            self.label_4.setText(f"{volume:.4f} {self.ticker}")
+            self.label_6.setText(f"{highPrice:,}")
+            self.label_8.setText(f"{value/1000000000:,.1f} B")
+            self.label_10.setText(f"{lowPrice:,}")
+            self.label_14.setText(f"{prevClosePrice:,}")
+            self.__updateStyle()
+        
+        # fill in MID data
+        def fillMidData(self, currPrice, chgRate, volumePower):
+            self.label_1.setText(f"{currPrice:,}")
+            self.label_2.setText(f"{chgRate:+.2f}%")
+            self.label_12.setText(f"{volumePower:.2f}%")
+            self.__updateStyle()
+
+        def __updateStyle(self):
+            # color blue when rate is negative
+            if '-' in self.label_2.text():
+                self.label_1.setStyleSheet("color:blue;")
+                self.label_2.setStyleSheet("background-color:blue;color:white")
+
+            # color red when rate is positive
+            else:
+                self.label_1.setStyleSheet("color:red;")
+                self.label_2.setStyleSheet("background-color:red;color:white")
+
+        def closeEvent(self, event):
+            self.ovw.close()
+    ```
+    ![Overview_GUI](overview.gif)
