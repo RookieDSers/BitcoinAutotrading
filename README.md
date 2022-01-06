@@ -3,12 +3,14 @@
 - Bitcoin autotrading HTS using Python and Bithumb APIs
   ![BTC_Auto_HTS](btcAuto_HTS.gif)
 
-## Idea
+## Summary
 
-## Main Description
+## Motivatoin
+
+## Main Concepts
 
 ## Tools and APIs
 
-## Downside / Improvements
+## Downside & Future Direction
 
 ## Reference
