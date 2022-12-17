@@ -1,6 +1,6 @@
 # BitcoinAutotrading
 
-- Bitcoin autotrading HTS using Python and Bithumb APIs
+Bitcoin autotrading HTS using Python and Bithumb APIs
   ![BTC_Auto_HTS](btcAuto_HTS.gif)
 
 ## Summary
@@ -13,16 +13,26 @@
 
 ## Main Concepts
 
-- We divided this project to 4 subsections.
-
-1) PyQt5 for GUI (+ Python Basics)
-- We chosed PyQt5 for creating our graphic user interface (GUI). Since we were using Python-based APIs, it benefits from being a Python pulg-in GUI toolkit Qt
-- Qt Designer made us much easier to build UIs with useful built-in widgets also with customized widgets
-- 
-
+- Signal/Slot (Event Handling)
+- Web APIs
+- Websockets
+- Investing Strategies (Moving-Average, L.W. Volatility Break-out strategy)
 
 ## Tools and APIs
 
+1) PyQt & Qt Designer
+- PyQt5 for graphic user interface (GUI)
+- Qt Designer is used to build UIs with useful built-in widgets also with customized widgets
+- PyQt also has its own straightforward event handling concept called Signal/Slot
+
+2) Web APIs/Modules
+
+- **Pybithumb** API from _Bithumb_
+- Websocket (also included in **Pybithumb** API)
+
 ## Downside & Future Direction
 
-## Reference
+- Need improvements on UI
+- Actual run would hit breakpoints during sleep mode on the physical computer
+  - Need to migrate to a server
+- Need more update on investing strategy to handle constant votality
